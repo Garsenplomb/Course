@@ -1,10 +1,10 @@
-##########################################
-#Titre: Derby                            #
-#Auteur: Guy Paquin                      #
-#Courriel: gpaquin@educnda.com           #
-#Date: 25 juillet 2018                   #
-#Note:                                   #
-##########################################
+###########################################
+# Titre: Derby                            #
+# Auteur: Guy Paquin                      #
+# Courriel: gpaquin@educnda.com           #
+# Date: 25 juillet 2018                   #
+# Note:                                   #
+###########################################
 
 #importation des modules utiles
 
@@ -18,6 +18,7 @@ import time
 
 #Variable
 premier_tours=True
+position =[0,0,0,0,0]
 
 # CLASSE
 class LICORNE:
@@ -116,9 +117,8 @@ class LICORNE:
         pygame.draw.rect(surface,self.couleur_de_fond,(self.x,self.y,75,55))
         pygame.display.update()
         self.x=self.x+delta
-        if self.x < 0 or self.x > 1140:
-            self.x = self.x-delta
         self.afficher()
+        return self.x
 
     def mouvement_vertical(self,delta):
         print("monter",self.x,self.y)
@@ -248,13 +248,23 @@ def intro():
     surface.fill(GAZON)
     surface.blit(pygame.image.load("licorneintro.png"),(600,300))
     pygame.display.update()
+    boucle = True
+    while boucle == True:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == KEYDOWN and event.key == K_SPACE:
+                boucle = False
+            
 
 
 
 
 ###### BOUCLE PRINCIPALE ######
 intro()
-time.sleep(10)
+
+
 lignes()
 Julie.afficher()
 Martine.afficher()
@@ -269,14 +279,20 @@ while True:
             pygame.quit()
             sys.exit()
         if event.type == KEYDOWN and event.key == K_SPACE:
-            while True:
-                Julie.mouvement_horizontal(delta())
-                Martine.mouvement_horizontal(delta())
-                Lucille.mouvement_horizontal(delta())
-                Lana.mouvement_horizontal(delta())
-                Lucinda.mouvement_horizontal(delta())
-                premier_tours=False
-                time.sleep(0.5)
+            boucle = True
+            while boucle ==True:
+                for event in pygame.event.get():
+                    if event.type == QUIT:
+                        pygame.quit()
+                        sys.exit()
+                    else:
+                        position[0]=Julie.mouvement_horizontal(delta())
+                        position[1]=Martine.mouvement_horizontal(delta())
+                        position[2]=Lucille.mouvement_horizontal(delta())
+                        position[3]=Lana.mouvement_horizontal(delta())
+                        position[4]=Lucinda.mouvement_horizontal(delta())
+                        premier_tours=False
+                        time.sleep(0.5)
         
 
     pygame.display.update()
